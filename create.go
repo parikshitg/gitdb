@@ -1,13 +1,11 @@
 package gitdb
 
 import (
-	"encoding/json"
-
 	"github.com/boltdb/bolt"
 	"github.com/google/uuid"
 )
 
-func (g *GitDB) Create(bucket string, content interface{}) (string, error) {
+func (g *GitDB) Create(bucket string, content Content) (string, error) {
 
 	id := uuid.New().String()
 
@@ -18,8 +16,9 @@ func (g *GitDB) Create(bucket string, content interface{}) (string, error) {
 			return err
 		}
 
-		// json encoding
-		data, err := json.Marshal(content)
+		header := content.GetHeader()
+		header.ID = id
+		data, err := content.Serialize()
 		if err != nil {
 			return err
 		}
