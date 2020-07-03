@@ -54,10 +54,24 @@ func main() {
 
 	err = db.Update("BLOG", id, &b2)
 	if err != nil {
-		log.Println("Update Error : ", err)
+		log.Fatal("Update Error : ", err)
 	}
 
 	// read last blog again to see updates
+	err = db.Read("BLOG", id, &b)
+	if err != nil {
+		log.Fatal("Read Error : ", err)
+	}
+
+	fmt.Println("blog: ", b)
+
+	// Delete last blog
+	err = db.Delete("BLOG", id)
+	if err != nil {
+		log.Fatal("Delete error :", err)
+	}
+
+	// read last blog again to see deletion (gives read error)
 	err = db.Read("BLOG", id, &b)
 	if err != nil {
 		log.Println("Read Error : ", err)
