@@ -39,14 +39,29 @@ func main() {
 		}
 	}
 
-	// Read blog
+	// Read blog(last blog)
 	var b Blog
 	err = db.Read("BLOG", id, &b)
 	if err != nil {
 		log.Println("Read Error : ", err)
-		return
 	}
 
 	fmt.Println("blog: ", b)
 
+	// Update Blog
+	var b2 Blog
+	b2 = Blog{Title: "FIFTH", Body: "FIFTHBODY"}
+
+	err = db.Update("BLOG", id, &b2)
+	if err != nil {
+		log.Println("Update Error : ", err)
+	}
+
+	// read last blog again to see updates
+	err = db.Read("BLOG", id, &b)
+	if err != nil {
+		log.Println("Read Error : ", err)
+	}
+
+	fmt.Println("blog: ", b)
 }
